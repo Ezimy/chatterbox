@@ -1,4 +1,7 @@
-import './App.css'
+import './App.css';
+import UserList from './components/UserList/UserList.jsx';
+import Chat from './components/Chat/Chat.jsx';
+import Details from './components/Detail/Detail.jsx';
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
@@ -24,8 +27,10 @@ const analytics = getAnalytics(app);
 function App() {
   return (
     <>
-      <div>
-        app
+      <div className='app'>
+        <UserList/>
+        <Chat/>
+        <Details/>
       </div>
     </>
   )
