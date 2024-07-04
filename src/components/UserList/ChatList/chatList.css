@@ -11,7 +11,7 @@
             border-radius: 0.5rem;
             flex: 1;
             gap: 1.25rem;
-            background-color: gray;
+            background-color: #495057;
             input{
                 color: white;
                 background-color: transparent;
@@ -19,6 +19,18 @@
                 outline: none;
                 flex: 1;
             }
+            svg{
+                width: 1.25rem;
+                height: 1.25rem;
+            }
+        }
+        .add{
+            cursor: pointer;
+            width: 1.25rem;
+            height: 1.25rem;
+            background-color: #495057;
+            padding: 1rem;
+            border-radius: 0.5rem;
         }
     }
 }

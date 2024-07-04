@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './chatList.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSearch, faPlus } from '@fortawesome/free-solid-svg-icons'
+import { faSearch, faPlus, faMinus } from '@fortawesome/free-solid-svg-icons'
 const chatList = () => {
+  const [addMode,setAddMode] = useState(false)
   return (
     <div className='chatList'>
       <div className='search'>
@@ -10,7 +11,7 @@ const chatList = () => {
           <FontAwesomeIcon icon={faSearch}/>
           <input type='text' placeholder='Search'></input>
         </div>
-        <FontAwesomeIcon icon={faPlus}/>
+        <FontAwesomeIcon icon={addMode ? faMinus : faPlus} className='add' onClick={()=>setAddMode((prev)=>!prev)}/>
       </div>
     </div>
   )
