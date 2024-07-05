@@ -13,6 +13,62 @@ const chatList = () => {
         </div>
         <FontAwesomeIcon icon={addMode ? faMinus : faPlus} className='add' onClick={()=>setAddMode((prev)=>!prev)}/>
       </div>
+      <div className="item">
+        <img src='' alt='avatar'/>
+        <div className="texts">
+          <span>Jane Doe</span>
+          <p>hello</p>
+        </div>
+      </div>
+      <div className="item">
+        <img src='' alt='avatar'/>
+        <div className="texts">
+          <span>Jane Doe</span>
+          <p>hello</p>
+        </div>
+      </div>
+      <div className="item">
+        <img src='' alt='avatar'/>
+        <div className="texts">
+          <span>Jane Doe</span>
+          <p>hello</p>
+        </div>
+      </div>
+      <div className="item">
+        <img src='' alt='avatar'/>
+        <div className="texts">
+          <span>Jane Doe</span>
+          <p>hello</p>
+        </div>
+      </div>
+      <div className="item">
+        <img src='' alt='avatar'/>
+        <div className="texts">
+          <span>Jane Doe</span>
+          <p>hello</p>
+        </div>
+      </div>
+      <div className="item">
+        <img src='' alt='avatar'/>
+        <div className="texts">
+          <span>Jane Doe</span>
+          <p>hello</p>
+        </div>
+      </div>
+      <div className="item">
+        <img src='' alt='avatar'/>
+        <div className="texts">
+          <span>Jane Doe</span>
+          <p>hello</p>
+        </div>
+      </div>
+      <div className="item">
+        <img src='' alt='avatar'/>
+        <div className="texts">
+          <span>Jane Doe</span>
+          <p>hello</p>
+        </div>
+      </div>
     </div>
   )
 }
