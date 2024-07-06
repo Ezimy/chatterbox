@@ -1,3 +1,11 @@
-.details{
+.detail{
     flex: 1;
+    .user{
+        padding: 30px 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        border: 1px solid #dddddd35;
+    }
 }

@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import './chat.css'
 import EmojiPicker from 'emoji-picker-react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faImage, faSmile, faCamera, faMicrophone, faPhone, faVideo, faInfo } from '@fortawesome/free-solid-svg-icons'
 const Chat = () => {
   const [open,setOpen] = useState(false)
   const [text,setText] = useState("");
@@ -19,9 +21,9 @@ const Chat = () => {
           </div>
         </div>
         <div className='icons'>
-          <img src="" alt="phone" />
-          <img src="" alt="video" />
-          <img src="" alt="info" />
+          <FontAwesomeIcon icon={faPhone}/>
+          <FontAwesomeIcon icon={faVideo}/>
+          <FontAwesomeIcon icon={faInfo}/>
         </div>
       </div>
       <div className="center">
@@ -31,27 +33,27 @@ const Chat = () => {
             <p>
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores officiis reprehenderit molestias, voluptatem soluta dolore ut architecto possimus delectus nulla totam error excepturi dolorem ducimus dolor quae libero est cumque!
             </p>
-          </div>
-          <span>1 min ago</span>    
+            <span>1 min ago</span>   
+          </div> 
         </div>
         <div className="message own">
           <div className="texts">
             <p>
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores officiis reprehenderit molestias, voluptatem soluta dolore ut architecto possimus delectus nulla totam error excepturi dolorem ducimus dolor quae libero est cumque!
             </p>
+            <span>1 min ago</span>    
           </div>
-          <span>1 min ago</span>    
         </div>
       </div>
       <div className="bottom">
         <div className="icons">
-          <img src="" alt="phone" />
-          <img src="" alt="video" />
-          <img src="" alt="info" />
+          <FontAwesomeIcon icon={faImage}/>
+          <FontAwesomeIcon icon={faCamera}/>
+          <FontAwesomeIcon icon={faMicrophone}/>
         </div>
         <input type="text" placeholder='Type a message...' value={text} onChange={e=>setText(e.target.value)}/>
         <div className="emoji">
-          <img src="" alt="emoji picker" onClick={()=>setOpen(prev=>!prev)}/>
+            <FontAwesomeIcon icon={faSmile} onClick={()=>setOpen(prev=>!prev)}/>
           <div className="picker">
             <EmojiPicker open={open} className='emojiPicker' onEmojiClick={pickEmoji}/>
           </div>
