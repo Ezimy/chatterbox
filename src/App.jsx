@@ -2,6 +2,8 @@ import './App.css';
 import UserList from './components/UserList/UserList.jsx';
 import Chat from './components/Chat/Chat.jsx';
 import Details from './components/Detail/Detail.jsx';
+import Login from './components/UserList/Login/Login';
+import Notification from './components/UserList/Notification/Notification.jsx';
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
@@ -25,12 +27,20 @@ const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 
 function App() {
+  const user = true
   return (
     <>
       <div className='app'>
-        <UserList/>
-        <Chat/>
-        <Details/>
+        { user ? (
+          <>
+            <UserList/>
+            <Chat/>
+            <Details/>
+          </>
+        ) : (
+          <Login/>
+        )}
+        <Notification/>
       </div>
     </>
   )

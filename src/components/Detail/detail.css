@@ -1,11 +1,94 @@
 .detail{
     flex: 1;
+    overflow: auto;
     .user{
-        padding: 30px 20px;
+        padding: 1.875rem 1.25rem;
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 20px;
-        border: 1px solid #dddddd35;
+        gap: 1rem;
+        border-bottom: 0.0625rem solid #dddddd35;
+        img{
+            width: 6.25rem;
+            height: 6.25rem;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 0.0625rem solid white; 
+        }
+    }
+    .info{
+        padding: 1.25rem; 
+        display: flex;
+        flex-direction: column;
+        gap: 1.875rem; 
+        .option{
+            .title{
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                svg{
+                    width: 1rem; 
+                    height: 1rem; 
+                    border: 0.0625rem solid white; 
+                    border-radius: 50%;
+                    padding: 0.625rem; 
+                    cursor: pointer;
+                }
+            }
+            .photos{
+                margin-top: 1.25rem; 
+                display: flex;
+                flex-direction: column;
+                gap: 1.25rem; 
+                .photoItem{
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    .photoDetail{
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        gap: 1.25rem; 
+                        img{
+                            border: 0.0625rem solid white; 
+                            width: 2.5rem; 
+                            height: 2.5rem; 
+                            border-radius: 0.3125rem; 
+                            object-fit: cover;
+                        }
+                        span{
+                            font-size: 0.875rem; 
+                            color: lightgray;
+                            font-weight: 300;
+                        }
+                    }
+                    .icon{
+                        width: 1rem; 
+                        height: 1rem; 
+                        border: solid 0.0625rem white; 
+                        border-radius: 50%;
+                        padding: 0.625rem;
+                        cursor: pointer;
+                    }
+                }
+            }
+        }
+        button{
+            padding: 0.9375rem;
+            background-color: #8b0000;
+            opacity: 0.75;
+            color: white;
+            border: none;
+            border-radius: 0.3125rem; 
+            cursor: pointer;
+            &:hover{
+                opacity: 1;
+                background-color: maroon;
+            }
+            &.logout{
+                padding: 0.625rem; 
+                background-color: #1a73e8;
+            }
+        }
     }
 }

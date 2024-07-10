@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import './chat.css'
 import EmojiPicker from 'emoji-picker-react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faImage, faSmile, faCamera, faMicrophone, faPhone, faVideo, faInfo } from '@fortawesome/free-solid-svg-icons'
+import avatar from '../../assets/images/avatar.jpg'
 const Chat = () => {
   const [open,setOpen] = useState(false)
   const [text,setText] = useState("");
@@ -10,6 +11,10 @@ const Chat = () => {
     setText((prev)=>prev+e.emoji);
     setOpen((prev)=>!prev)
   };
+  const endRef = useRef(null);
+  useEffect(()=>{
+    endRef.current.scrollIntoView({behavior:'smooth'})
+  },[])
   return (
     <div className='chat'>
       <div className="top">
@@ -43,6 +48,77 @@ const Chat = () => {
             </p>
             <span>1 min ago</span>    
           </div>
+        </div>
+        <div className="message">
+          <img src="" alt="avatar" />
+          <div className="texts">
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores officiis reprehenderit molestias, voluptatem soluta dolore ut architecto possimus delectus nulla totam error excepturi dolorem ducimus dolor quae libero est cumque!
+            </p>
+            <span>1 min ago</span>   
+          </div> 
+        </div>
+        <div className="message own">
+          <div className="texts">
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores officiis reprehenderit molestias, voluptatem soluta dolore ut architecto possimus delectus nulla totam error excepturi dolorem ducimus dolor quae libero est cumque!
+            </p>
+            <span>1 min ago</span>    
+          </div>
+        </div>
+        <div className="message">
+          <img src="" alt="avatar" />
+          <div className="texts">
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores officiis reprehenderit molestias, voluptatem soluta dolore ut architecto possimus delectus nulla totam error excepturi dolorem ducimus dolor quae libero est cumque!
+            </p>
+            <span>1 min ago</span>   
+          </div> 
+        </div>
+        <div className="message own">
+          <div className="texts">
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores officiis reprehenderit molestias, voluptatem soluta dolore ut architecto possimus delectus nulla totam error excepturi dolorem ducimus dolor quae libero est cumque!
+            </p>
+            <span>1 min ago</span>    
+          </div>
+        </div>
+        <div className="message">
+          <img src="" alt="avatar" />
+          <div className="texts">
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores officiis reprehenderit molestias, voluptatem soluta dolore ut architecto possimus delectus nulla totam error excepturi dolorem ducimus dolor quae libero est cumque!
+            </p>
+            <span>1 min ago</span>   
+          </div> 
+        </div>
+        <div className="message own">
+          <div className="texts">
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores officiis reprehenderit molestias, voluptatem soluta dolore ut architecto possimus delectus nulla totam error excepturi dolorem ducimus dolor quae libero est cumque!
+            </p>
+            <span>1 min ago</span>    
+          </div>
+        </div>
+        <div className="message">
+          <img src="" alt="avatar" />
+          <div className="texts">
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores officiis reprehenderit molestias, voluptatem soluta dolore ut architecto possimus delectus nulla totam error excepturi dolorem ducimus dolor quae libero est cumque!
+            </p>
+            <span>1 min ago</span>   
+          </div> 
+        </div>
+        <div className="message own">
+          <div className="texts">
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores officiis reprehenderit molestias, voluptatem soluta dolore ut architecto possimus delectus nulla totam error excepturi dolorem ducimus dolor quae libero est cumque!
+            </p>
+            <span>1 min ago</span>    
+          </div>
+        </div>
+        <div ref={endRef}>
+
         </div>
       </div>
       <div className="bottom">
