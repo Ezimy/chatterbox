@@ -3,6 +3,7 @@ import './detail.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faDownload, faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons'
 import avatar from '../../assets/images/avatar.jpg'
+import {auth} from '../../lib/firebase'
 const Detail = () => {
   const [photoState,setPhotoState] = useState(false)
   const [chatSettingState,setChatSettingState] = useState(false)
@@ -71,7 +72,7 @@ const Detail = () => {
             </div>
           </div>
           <button>Block User</button>
-          <button className='logout'>Logout</button>
+          <button className='logout' onClick={()=>auth.signOut()}>Logout</button>
         </div>
     </div>
   )

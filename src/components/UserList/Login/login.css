@@ -48,6 +48,10 @@
                 background-color: #6495ED;
                 color: #fff;
                 cursor: pointer;
+                &:disabled{
+                    background-color: #1f8ff19c;
+                    cursor: not-allowed;
+                }
             }
         }
     }
