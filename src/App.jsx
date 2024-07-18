@@ -23,7 +23,7 @@ function App() {
       unSub();
     };
   }, [fetchUserInfo]);
-
+  console.log(currentUser)
   if (isLoading) return <div className='loading'>Loading...</div>
 
   return (
