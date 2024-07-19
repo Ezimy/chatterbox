@@ -7,7 +7,6 @@ import avatar from '../../../assets/images/avatar.jpg'
 const UserInfo = () => {
   const {currentUser} = useUserStore()
   const userAvatar = currentUser.avatar ? currentUser.avatar : avatar;
-  console.log(currentUser.avatar)
   return (
     <div className='userInfo'>
       <div className='user'>

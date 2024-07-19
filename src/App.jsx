@@ -8,8 +8,10 @@ import { useEffect } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './lib/firebase';
 import { useUserStore } from './lib/userStore';
+import { useChatStore } from './lib/chatStore.jsx';
 function App() {
   const {currentUser, isLoading, fetchUserInfo} = useUserStore()
+  const {chatId} = useChatStore()
   useEffect(() => {
     const unSub = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -23,7 +25,7 @@ function App() {
       unSub();
     };
   }, [fetchUserInfo]);
-  console.log(currentUser)
+  
   if (isLoading) return <div className='loading'>Loading...</div>
 
   return (
@@ -32,8 +34,8 @@ function App() {
         { currentUser ? (
           <>
             <UserList/>
-            <Chat/>
-            <Details/>
+            {chatId && <Chat/>}
+            {chatId && <Details/>}
           </>
         ) : (
           <Login/>
