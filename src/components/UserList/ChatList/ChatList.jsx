@@ -11,6 +11,7 @@ import { useChatStore } from '../../../lib/chatStore'
 const chatList = () => {
   const [addMode,setAddMode] = useState(false)
   const [chats, setChats] = useState([])
+  const [input, setInput] = useState('')
 
   const {currentUser} = useUserStore()
   const {chatId, changeChat} = useChatStore()
@@ -44,21 +45,22 @@ const chatList = () => {
         chats: userChats,
       })
       changeChat(chat.chatId,chat.user)
-    }
+      }
     catch(err){
       console.log("error has occured"+err)
+      }
     }
-    }
+    const filteredChats = chats.filter((chat) => chat.user.username.toLowerCase().includes(input.toLowerCase()))
   return (
     <div className='chatList'>
       <div className='search'>
         <div className="searchBar">
           <FontAwesomeIcon icon={faSearch}/>
-          <input type='text' placeholder='Search'></input>
+          <input type='text' placeholder='Search' onChange={(e) => setInput(e.target.value)}></input>
         </div>
         <FontAwesomeIcon icon={addMode ? faMinus : faPlus} className='add' onClick={()=>setAddMode((prev)=>!prev)}/>
       </div>
-      {chats.map((chat) => (
+      {filteredChats.map((chat) => (
             <div className="item" 
             key={chat.chatId} 
             onClick={()=>handleSelect(chat)}
