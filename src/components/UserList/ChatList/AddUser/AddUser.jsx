@@ -36,6 +36,7 @@ const AddUser = () => {
           chats:arrayUnion ({
             chatId: newChatRef.id,
             lastMessage: "",
+            isSeen: false,
             receiverId: currentUser.id,
             updatedAt: Date.now(),
           }),
@@ -45,6 +46,7 @@ const AddUser = () => {
           chats:arrayUnion ({
             chatId: newChatRef.id,
             lastMessage: "",
+            isSeen: false,
             receiverId: user.id,
             updatedAt: Date.now(),
           }),

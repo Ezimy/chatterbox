@@ -3,17 +3,36 @@ import './detail.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faDownload, faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons'
 import avatar from '../../assets/images/avatar.jpg'
-import {auth} from '../../lib/firebase'
+import {auth, db} from '../../lib/firebase'
+import { useChatStore } from '../../lib/chatStore'
+import { useUserStore } from '../../lib/userStore'
+import { arrayRemove, arrayUnion, doc, updateDoc } from 'firebase/firestore'
 const Detail = () => {
   const [photoState,setPhotoState] = useState(false)
   const [chatSettingState,setChatSettingState] = useState(false)
   const [privacyState,setPrivacyState] = useState(false)
   const [fileState,setFileState] = useState(false)
+  const {chatId,user,isCurrentUserBlocked, isReceiverBlocked, changeBlock} = useChatStore()
+  const {currentUser} = useUserStore()
+
+  const handleBlock = async ()=>{
+    if (!user) return;
+    const userDocRef = doc(db,"users",currentUser.id)
+    try{
+      await updateDoc(userDocRef,{
+        blocked: isReceiverBlocked ? arrayRemove(user.id) : arrayUnion(user.id),
+      })
+      changeBlock()
+    }
+    catch(err){
+      console.log(err)
+    }
+  }
   return (
     <div className='detail'>
         <div className="user">
-          <img src={avatar} alt="avatar" />
-          <h2>Jane Doe</h2>
+          <img src={user?.avatar || avatar} alt="avatar" />
+          <h2>{user?.username}</h2>
           <p>Lorem ipsum dolor sit amet.</p>
         </div>
         <div className="info">
@@ -71,7 +90,10 @@ const Detail = () => {
               <FontAwesomeIcon icon={fileState ? faAngleUp : faAngleDown} onClick={()=> setFileState(prev => !prev)}/>
             </div>
           </div>
-          <button>Block User</button>
+          <button onClick={handleBlock}>{
+            isCurrentUserBlocked ? 'You are Blocked' : isReceiverBlocked ? "User Blocked" : "Block User"
+          }
+          </button>
           <button className='logout' onClick={()=>auth.signOut()}>Logout</button>
         </div>
     </div>

@@ -6,7 +6,7 @@ import AddUser from './AddUser/AddUser.jsx'
 import avatar from '../../../assets/images/avatar.jpg'
 import {useUserStore} from '../../../lib/userStore'
 import { db } from '../../../lib/firebase'
-import { doc, getDoc, onSnapshot } from 'firebase/firestore'
+import { doc, getDoc, onSnapshot, updateDoc } from 'firebase/firestore'
 import { useChatStore } from '../../../lib/chatStore'
 const chatList = () => {
   const [addMode,setAddMode] = useState(false)
@@ -14,8 +14,6 @@ const chatList = () => {
 
   const {currentUser} = useUserStore()
   const {chatId, changeChat} = useChatStore()
-  console.log(chatId)
-  console.log(chats)
   useEffect(() => {
     const unSub = onSnapshot(doc(db, "userchats", currentUser.id), async (res) => {
       const items = res.data().chats
@@ -34,9 +32,23 @@ const chatList = () => {
   },[currentUser.id])
 
   const handleSelect = async (chat) => {
-    changeChat(chat.chatId,chat.user)
-
-  }
+    const userChats = chats.map((item) => {
+      const {user, ...rest} = item 
+      return rest
+    })
+    const chatIndex = userChats.findIndex((item) => item.chatId === chat.chatId)
+    userChats[chatIndex].isSeen = true
+    const userChatRef = doc(db, "userchats", currentUser.id)
+    try{
+      await updateDoc(userChatRef, {
+        chats: userChats,
+      })
+      changeChat(chat.chatId,chat.user)
+    }
+    catch(err){
+      console.log("error has occured"+err)
+    }
+    }
   return (
     <div className='chatList'>
       <div className='search'>
@@ -47,7 +59,13 @@ const chatList = () => {
         <FontAwesomeIcon icon={addMode ? faMinus : faPlus} className='add' onClick={()=>setAddMode((prev)=>!prev)}/>
       </div>
       {chats.map((chat) => (
-            <div className="item" key={chat.chatId} onClick={()=>handleSelect(chat)}>
+            <div className="item" 
+            key={chat.chatId} 
+            onClick={()=>handleSelect(chat)}
+            style={{
+              backgroundColor: chat?.isSeen ? "transparent" : "#5183fe",
+            }}
+            >
               <img src={chat.user.avatar || avatar} alt='avatar'/>
               <div className="texts">
                 <span>{chat.user.username}</span>
