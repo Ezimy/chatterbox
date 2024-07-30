@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react'
 import './chat.css'
 import EmojiPicker from 'emoji-picker-react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faImage, faSmile, faCamera, faMicrophone, faPhone, faVideo, faInfo } from '@fortawesome/free-solid-svg-icons'
+import { faImage, faSmile, faCamera, faMicrophone, faPhone, faVideo, faInfo, faFile} from '@fortawesome/free-solid-svg-icons'
 import { arrayUnion, doc, onSnapshot, updateDoc, getDoc } from 'firebase/firestore'
 import { db } from '../../lib/firebase'
 import avatar from '../../assets/images/avatar.jpg'
@@ -19,6 +19,7 @@ const Chat = () => {
     file:null,
     url:"",
   })
+  const endRef = useRef(null)
   const pickEmoji = (e)=>{
     setText((prev)=>prev+e.emoji);
     setOpen((prev)=>!prev)
@@ -32,8 +33,7 @@ const Chat = () => {
     }
   }
   const handleSend = async ()=>{
-    if(text === "") return;
-    
+
     let imgUrl = null
     
     try{
@@ -81,10 +81,11 @@ const Chat = () => {
     })
     setText("")
   }
-  const endRef = useRef(null);
-  useEffect(()=>{
-    endRef.current.scrollIntoView({behavior:'smooth'})
-  },[])
+  useEffect(() => {
+    if (endRef.current) {
+      endRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [chat]);
 
   useEffect(()=>{
     const unSub = onSnapshot(doc(db, "chats", chatId), (res)=>{
@@ -113,23 +114,23 @@ const Chat = () => {
       </div>
       <div className="center">
         { chat?.messages?.map((message) =>(
-          <div className="message own" key={message?.createdAt}>
+          <div className={`message ${message.senderId === currentUser.id ? 'own' : ''}`} key={message?.createdAt}>
             <div className="texts">
               {message.img && <img
                 src={message.img}
                 alt="img"
               />
               }
-                <p>
+                { message.text && <p>
                   {message.text}
                 </p>
-                {/* <span>{message.createAt}</span>     */}
+                }
             </div>
           </div>
         ))
         }
         {
-          img.url && <div className="message own">
+          img.url && <div className={'message own preview'}>
             <div className="texts">
               <img src={img.url} alt="img"/>
             </div>
@@ -142,11 +143,10 @@ const Chat = () => {
       <div className="bottom">
         <div className="icons">
           <label htmlFor="file">
-            <FontAwesomeIcon icon={faImage}/>
+            <FontAwesomeIcon icon={faImage} className={`icon ${isCurrentUserBlocked||isReceiverBlocked? "disabled" : ""}`}/>
           </label>
           <input type="file" id='file' style={{display:"none"}} onChange={handleImg}/>
-          <FontAwesomeIcon icon={faCamera}/>
-          <FontAwesomeIcon icon={faMicrophone}/>
+            <FontAwesomeIcon icon={faFile} className={`icon ${isCurrentUserBlocked||isReceiverBlocked? "disabled" : ""}`}/>
         </div>
         <input 
         type="text" 
@@ -154,7 +154,7 @@ const Chat = () => {
         value={text} 
         onChange={e=>setText(e.target.value)}
         disabled={isCurrentUserBlocked||isReceiverBlocked}/>
-        <div className="emoji">
+        <div className={`emoji ${isCurrentUserBlocked||isReceiverBlocked? "disabled" : ""}`}>
             <FontAwesomeIcon icon={faSmile} onClick={()=>setOpen(prev=>!prev)}/>
           <div className="picker">
             <EmojiPicker open={open} className='emojiPicker' onEmojiClick={pickEmoji}/>
