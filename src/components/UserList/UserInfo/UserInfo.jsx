@@ -4,19 +4,28 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import { faEllipsis, faUser, faEdit } from '@fortawesome/free-solid-svg-icons'
 import {useUserStore} from '../../../lib/userStore'
 import avatar from '../../../assets/images/avatar.jpg'
+import {db} from '../../../lib/firebase'
+import { doc, updateDoc } from 'firebase/firestore';
 const UserInfo = () => {
   const {currentUser, updateUser} = useUserStore()
-  const userAvatar = currentUser.avatar ? currentUser.avatar : avatar;
   const [isEditing, setIsEditing] = useState(false);
   const [newUsername, setNewUsername] = useState(currentUser.username);
+  const [newAvatar, setNewAvatar] = useState(currentUser.avatar);
+  // handle edit username
   const handleEdit = ()=>{
-    console.log('Edit user')
     setIsEditing(true)
   }
-  const handleSave = () => {
-    // updateUser({ ...currentUser, username: newUsername });
-    console.log('Save user')
-    setIsEditing(false);
+  const handleSave = async () => {
+    const userRef = doc(db, 'users', currentUser.id);
+    try{
+      await updateDoc(userRef, { username: newUsername });
+      updateUser({ ...currentUser, username: newUsername })
+      console.log('Save user')
+    }
+    catch(err){ console.log(err) }
+    finally{
+      setIsEditing(false)
+    }
   };
 
   const handleKeyDown = (e) => {
@@ -24,18 +33,32 @@ const UserInfo = () => {
       handleSave();
     }
   }
-  const handleImg = ()=>{
-    console.log('Edit avatar')
+  // handle edit avatar
+  const handleEditAvatar = async (e)=>{
+    console.log(currentUser)
+    const userRef = doc(db, 'users', currentUser.id);
+      setNewAvatar({
+          file:e.target.files[0],
+          url:URL.createObjectURL(e.target.files[0])
+      })
+    try{
+      // upload new avatar
+      // update user avatar
+      await updateDoc(userRef, { avatar: newAvatar });
+      updateUser({ ...currentUser, avatar: newAvatar })
+      console.log('Save user avatar')
+      console.log(currentUser)
+    }
+    catch(err){ console.log(err) }
   }
   return (
     <div className='userInfo'>
       <div className='user'>
       <img 
-          src={userAvatar} 
+          src={currentUser.avatar} 
           alt='avatar' 
-          onError={(e) => { 
-            e.target.src = avatar; 
-            console.error('Failed to load user avatar:', userAvatar);
+          onError={() => {
+            console.error('Failed to load user avatar:', currentUser.avatar);
           }} 
         />
         {isEditing ? (
@@ -52,8 +75,11 @@ const UserInfo = () => {
       </div>
       <div className='icons'>
         <div className='icon-container'>
-          <FontAwesomeIcon icon={faUser} onClick={handleImg}/>
-          <span className='tooltip'>Edit Avatar Image</span>
+          <label htmlFor="file">
+            <FontAwesomeIcon icon={faUser}/>
+            <span className='tooltip'>Edit Avatar Image</span>
+          </label>
+          <input type='file' id='file' style={{display: 'none'}}  onChange={handleEditAvatar}/>
         </div>
         <div className='icon-container'>
           <FontAwesomeIcon icon={faEdit} onClick={handleEdit} />
