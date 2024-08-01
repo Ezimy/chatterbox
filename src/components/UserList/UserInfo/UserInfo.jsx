@@ -6,6 +6,7 @@ import {useUserStore} from '../../../lib/userStore'
 import avatar from '../../../assets/images/avatar.jpg'
 import {db} from '../../../lib/firebase'
 import { doc, updateDoc } from 'firebase/firestore';
+import upload from '../../../lib/upload'
 const UserInfo = () => {
   const {currentUser, updateUser} = useUserStore()
   const [isEditing, setIsEditing] = useState(false);
@@ -34,22 +35,20 @@ const UserInfo = () => {
     }
   }
   // handle edit avatar
-  const handleEditAvatar = async (e)=>{
-    console.log(currentUser)
-    const userRef = doc(db, 'users', currentUser.id);
-      setNewAvatar({
-          file:e.target.files[0],
-          url:URL.createObjectURL(e.target.files[0])
-      })
-    try{
-      // upload new avatar
-      // update user avatar
-      await updateDoc(userRef, { avatar: newAvatar });
-      updateUser({ ...currentUser, avatar: newAvatar })
-      console.log('Save user avatar')
-      console.log(currentUser)
+  const handleEditAvatar = async (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      try {
+        const imgUrl = await upload(file); // Upload new avatar and get URL
+        const userRef = doc(db, 'users', currentUser.id);
+        await updateDoc(userRef, { avatar: imgUrl });
+        updateUser({ ...currentUser, avatar: imgUrl });
+        setNewAvatar(imgUrl); // Update local state
+        console.log('Saved user avatar');
+      } catch (err) {
+        console.log(err);
+      }
     }
-    catch(err){ console.log(err) }
   }
   return (
     <div className='userInfo'>
