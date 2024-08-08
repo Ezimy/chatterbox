@@ -1,15 +1,17 @@
 import React, { useState } from 'react'
 import './userInfo.css'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import { faEllipsis, faUser, faEdit } from '@fortawesome/free-solid-svg-icons'
+import { faUser, faEdit, faPencilAlt } from '@fortawesome/free-solid-svg-icons'
 import {useUserStore} from '../../../lib/userStore'
 import avatar from '../../../assets/images/avatar.jpg'
 import {db} from '../../../lib/firebase'
 import { doc, updateDoc } from 'firebase/firestore';
 import upload from '../../../lib/upload'
+import EditDescription from './editDescription/editDescription'
 const UserInfo = () => {
   const {currentUser, updateUser} = useUserStore()
   const [isEditing, setIsEditing] = useState(false);
+  const [isEditingDescription, setIsEditingDescription] = useState(false);
   const [newUsername, setNewUsername] = useState(currentUser.username);
   const [newAvatar, setNewAvatar] = useState(currentUser.avatar);
   // handle edit username
@@ -50,6 +52,11 @@ const UserInfo = () => {
       }
     }
   }
+  // handle edit description
+  const handleEditDescription = () => {
+    console.log('Edit description');
+    setIsEditingDescription(true);
+  }
   return (
     <div className='userInfo'>
       <div className='user'>
@@ -74,17 +81,22 @@ const UserInfo = () => {
       </div>
       <div className='icons'>
         <div className='icon-container'>
-          <label htmlFor="file">
+          <label htmlFor="avatar-file">
             <FontAwesomeIcon icon={faUser}/>
             <span className='tooltip'>Edit Avatar Image</span>
           </label>
-          <input type='file' id='file' style={{display: 'none'}}  onChange={handleEditAvatar}/>
+          <input type='file' id='avatar-file' style={{display: 'none'}}  onChange={handleEditAvatar}/>
         </div>
         <div className='icon-container'>
           <FontAwesomeIcon icon={faEdit} onClick={handleEdit} />
           <span className='tooltip'>Edit Username</span>
         </div>
+        <div className='icon-container'>
+          <FontAwesomeIcon icon={faPencilAlt} onClick={handleEditDescription} />
+          <span className='tooltip'>Edit Description</span>
+        </div>
       </div>
+      {isEditingDescription && <EditDescription />}
     </div>
   )
 }

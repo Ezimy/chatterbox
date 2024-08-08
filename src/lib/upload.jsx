@@ -1,10 +1,10 @@
-import React from 'react';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
 const upload = async (file) => {
     const storage = getStorage();
     const date = new Date();
-    const storageRef = ref(storage, `images/${date.getTime()}_${file.name}`);
+    const isImage = file.type.startsWith('image/');
+    const storageRef = ref(storage, `${isImage ? 'images' : 'files'}/${date.getTime()}_${file.name}`);
 
     const uploadTask = uploadBytesResumable(storageRef, file);
 
