@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
 import './userInfo.css'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import { faUser, faEdit, faPencilAlt } from '@fortawesome/free-solid-svg-icons'
+import { faUser, faEdit, faPencilAlt, faRightFromBracket } from '@fortawesome/free-solid-svg-icons'
 import {useUserStore} from '../../../lib/userStore'
 import avatar from '../../../assets/images/avatar.jpg'
 import {db} from '../../../lib/firebase'
 import { doc, updateDoc } from 'firebase/firestore';
 import upload from '../../../lib/upload'
-import EditDescription from './editDescription/editDescription'
+import EditDescription from '../UserInfo/EditDescription/editDescription'
+import { auth } from '../../../lib/firebase'
 const UserInfo = () => {
   const {currentUser, updateUser} = useUserStore()
   const [isEditing, setIsEditing] = useState(false);
@@ -46,7 +47,6 @@ const UserInfo = () => {
         await updateDoc(userRef, { avatar: imgUrl });
         updateUser({ ...currentUser, avatar: imgUrl });
         setNewAvatar(imgUrl); // Update local state
-        console.log('Saved user avatar');
       } catch (err) {
         console.log(err);
       }
@@ -95,8 +95,12 @@ const UserInfo = () => {
           <FontAwesomeIcon icon={faPencilAlt} onClick={handleEditDescription} />
           <span className='tooltip'>Edit Description</span>
         </div>
+        <div className='icon-container'>
+          <FontAwesomeIcon icon={faRightFromBracket} onClick={()=>auth.signOut()} />
+          <span className='tooltip'>Log Out</span>
+        </div>
+        {isEditingDescription && <EditDescription onSave={() => setIsEditingDescription(false)} />}
       </div>
-      {isEditingDescription && <EditDescription />}
     </div>
   )
 }

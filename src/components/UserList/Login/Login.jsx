@@ -34,6 +34,7 @@ const Login = () => {
             }
         finally{
             setLoading(false)
+            console.log(loading)
         }
     }
     const handleRegister = async (e) => {
@@ -50,6 +51,7 @@ const Login = () => {
                 avatar: imgUrl,
                 id: res.user.uid,
                 blocked:[],
+                description: "Default Description",
               });
               await setDoc(doc(db, "userchats", res.user.uid), {
                 chats:[],
