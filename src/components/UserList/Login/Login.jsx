@@ -1,7 +1,7 @@
 import './login.css'
 import React, {useState} from 'react'
 import { toast } from 'react-toastify'
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword} from 'firebase/auth'
 import upload from '/src/lib/upload'
 import { auth,db } from '/src/lib/firebase'
 import { doc, setDoc } from 'firebase/firestore'
@@ -34,36 +34,46 @@ const Login = () => {
             }
         finally{
             setLoading(false)
-            console.log(loading)
         }
     }
     const handleRegister = async (e) => {
-        e.preventDefault()
-        setLoading(true)
-        const formData = new FormData(e.target)
-        const {username, email, password} = Object.fromEntries(formData)
-        try{
-            const res = await createUserWithEmailAndPassword(auth, email, password)
-            const imgUrl = await upload(avatar.file)
-            await setDoc(doc(db, "users", res.user.uid), {
-                username,
-                email,
-                avatar: imgUrl,
-                id: res.user.uid,
-                blocked:[],
-                description: "Default Description",
-              });
-              await setDoc(doc(db, "userchats", res.user.uid), {
-                chats:[],
-              });
-            toast.success("User Created Successfully")
-        }
-        catch(err){
-            console.log(err)
-            toast.error(err.message)
-        }
-        finally{
-            setLoading(false)
+        e.preventDefault();
+        setLoading(true);
+        const formData = new FormData(e.target);
+        const { username, email, password } = Object.fromEntries(formData);
+        
+        try {
+            const res = await createUserWithEmailAndPassword(auth, email, password);
+            const imgUrl = await upload(avatar.file);
+            
+            try {
+                await setDoc(doc(db, "users", res.user.uid), {
+                    username,
+                    email,
+                    avatar: imgUrl,
+                    id: res.user.uid,
+                    blocked: [],
+                    description: "Default Description",
+                });
+                toast.success("User Created Successfully");
+            } catch (err) {
+                console.log("Error setting user document:", err);
+                toast.error("Failed to create user document.");
+            }
+            
+            try {
+                await setDoc(doc(db, "userchats", res.user.uid), {
+                    chats: [],
+                });
+            } catch (err) {
+                console.log("Error setting userchats document:", err);
+                toast.error("Failed to create userchats document.");
+            }
+        } catch (err) {
+            console.log("Error during registration:", err);
+            toast.error(err.message);
+        } finally {
+            setLoading(false);
         }
     }
   return (

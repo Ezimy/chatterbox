@@ -1,15 +1,28 @@
 import React, { useState } from 'react';
 import './editDescription.css';
 import { useUserStore } from '../../../../lib/userStore';
-const EditDescription = ({onSave}) => {
+import { doc, updateDoc } from 'firebase/firestore';
+import { db } from '../../../../lib/firebase';
+const EditDescription = ({setIsEditingDescription}) => {
   const { currentUser, updateUser } = useUserStore();
-  const [newDescription, setNewDescription] = useState('');
+  const [newDescription, setNewDescription] = useState(currentUser.description);
 
   const handleSaveDescription = async () => {
-    console.log('Save description:', newDescription);
-    onSave();
+    const userRef = doc(db, 'users', currentUser.id);
+    try{
+      await updateDoc(userRef, { description: newDescription });
+      updateUser({ ...currentUser, description: newDescription });
+      console.log('Save description')
+    }
+    catch(err){ console.log(err) }
+    finally{
+      setIsEditingDescription(false)
+    }
   };
-
+  const handleCancel = () => {
+    console.log('Cancel editing description');
+    setIsEditingDescription(false);
+  }
   const handleDescriptionChange = (e) => {
     setNewDescription(e.target.value);
   };
@@ -18,12 +31,17 @@ const EditDescription = ({onSave}) => {
     <div className='edit-description'>
       <h3>Edit Description</h3>
       <textarea
-        value={currentUser.description}
+        value={newDescription}
         onChange={handleDescriptionChange}
       />
-      <button onClick={handleSaveDescription}>
-        Save
-      </button>
+      <div className='buttons'>
+        <button onClick={handleSaveDescription}>
+          Save
+        </button>
+        <button className="cancel" onClick={handleCancel}>
+          Cancel
+        </button>
+      </div>
     </div>
   );
 };

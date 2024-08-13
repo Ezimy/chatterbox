@@ -1,8 +1,13 @@
 .edit-description {
-    border: 1px solid white;
+    padding: 1rem;
+    background-color: #343A40;
+    border-radius: 1rem;
+    border: 1px solid #ddddddee;
     min-height: 500px;
-    width: 800px;
+    width: 400px;
+    height: 400px;
     display: flex;
+    gap: 1rem;
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -12,9 +17,28 @@
     transform: translate(-50%, -50%);
     z-index: 1000;
     textarea{
+        padding: 1rem;
+        border-radius: 1rem;
+        height: 80%;
+        width: 60%;
+        color: white;
+        background-color: #495057;
         resize: none;
     }
-    button{
-        cursor: pointer;
+    .buttons{
+        display: flex;
+        gap: .5rem;
+        button{
+            gap: 1rem;
+            background-color: #5183fe;
+            color: white;
+            border: none;
+            border-radius: 0.4rem;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            &.cancel{
+                background-color: #8b0000;
+            }
+        }
     }
 }

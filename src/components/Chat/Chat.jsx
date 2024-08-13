@@ -125,10 +125,7 @@ const Chat = () => {
           <div className="texts">
             <span>{user.username}</span>
             <p>
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Culpa,
-              deleniti aliquam? Eveniet deleniti autem optio ut vel maxime nisi
-              voluptatum placeat nobis omnis soluta dolorum, beatae recusandae
-              animi. Vero, voluptates.
+              {user.description}
             </p>
           </div>
         </div>

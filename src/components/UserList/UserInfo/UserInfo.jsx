@@ -54,7 +54,6 @@ const UserInfo = () => {
   }
   // handle edit description
   const handleEditDescription = () => {
-    console.log('Edit description');
     setIsEditingDescription(true);
   }
   return (
@@ -99,7 +98,7 @@ const UserInfo = () => {
           <FontAwesomeIcon icon={faRightFromBracket} onClick={()=>auth.signOut()} />
           <span className='tooltip'>Log Out</span>
         </div>
-        {isEditingDescription && <EditDescription onSave={() => setIsEditingDescription(false)} />}
+        {isEditingDescription && <EditDescription setIsEditingDescription={setIsEditingDescription}/>}
       </div>
     </div>
   )
