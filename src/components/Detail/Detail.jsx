@@ -33,21 +33,9 @@ const Detail = () => {
         <div className="user">
           <img src={user?.avatar || avatar} alt="avatar" />
           <h2>{user?.username}</h2>
-          <p>Lorem ipsum dolor sit amet.</p>
+          <p>{user?.description}</p>
         </div>
         <div className="info">
-          <div className="option">
-            <div className="title">
-              <span>Chat Settings</span>
-              <FontAwesomeIcon icon={chatSettingState ? faAngleUp :faAngleDown} onClick={()=> setChatSettingState(prev => !prev)}/>
-            </div>
-          </div>
-          <div className="option">
-            <div className="title">
-              <span>Privacy and help</span>
-              <FontAwesomeIcon icon={privacyState ? faAngleUp : faAngleDown} onClick={()=> setPrivacyState(prev => !prev)}/>
-            </div>
-          </div>
           <div className="option">
             <div className="title">
               <span>Shared Photos</span>

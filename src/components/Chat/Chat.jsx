@@ -15,6 +15,7 @@ import {
   onSnapshot,
   updateDoc,
   getDoc,
+  Timestamp
 } from "firebase/firestore";
 import { db } from "../../lib/firebase";
 import avatar from "../../assets/images/avatar.jpg";
@@ -61,7 +62,7 @@ const Chat = () => {
         messages: arrayUnion({
           senderId: currentUser.id,
           text,
-          createdAt: new Date(),
+          createdAt: Timestamp.now(),
           ...(fileUrl && {
             file: fileUrl,
             fileName: file.file.name,
@@ -137,18 +138,29 @@ const Chat = () => {
       </div>
       <div className='center'>
         {chat?.messages?.map((message) => (
-          <div className={`message ${message.senderId === currentUser.id ? 'own' : ''}`} key={message?.createdAt}>
-            <div className='texts'>
-              {message.file && message.fileType.startsWith('image/') ? (
-                <img src={message.file} alt='img' />
-              ) : (
-                <a href={message.file} download>
-                  {message.fileName}
-                </a>
-              )}
-              {message.text && <p>{message.text}</p>}
+          <React.Fragment key={message.createdAt.toMillis()}>
+            <div className={`message ${message.senderId === currentUser.id ? 'own' : ''}`}>
+              <div className='texts'>
+                {message.file && message.fileType.startsWith('image/') ? (
+                  <img src={message.file} alt='img' />
+                ) : (
+                  message.file && (
+                    <div className="file-message">
+                      <FontAwesomeIcon icon={faFile} />
+                      <a href={message.file} download>
+                        {message.fileName}
+                      </a>
+                    </div>
+                  )
+                )}
+                {message.text && <p>{message.text}</p>}
+                <p className="message-date">
+                  {new Date(message.createdAt.toDate()).toLocaleString()}
+                </p>
+              </div>
             </div>
-          </div>
+            <hr />
+          </React.Fragment>
         ))}
         {file.url && (
           <div className={'message own preview'}>
