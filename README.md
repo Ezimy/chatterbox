@@ -1,8 +1,2 @@
-# React + Vite
-
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Chatterbox is a real-time chat application built with React and Firebase. The initial version of this app was created by following a tutorial by Llama Dev https://www.youtube.com/watch?v=domt_Sx-wTY. While adhering to the core structure provided by the tutorial, I made several enhancements and introduced new features to improve the overall functionality and user experience.
+This project has been a great learning experience, and I continue to improve and expand upon it.

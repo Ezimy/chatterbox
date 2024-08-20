@@ -141,6 +141,10 @@ const Chat = () => {
           <React.Fragment key={message.createdAt.toMillis()}>
             <div className={`message ${message.senderId === currentUser.id ? 'own' : ''}`}>
               <div className='texts'>
+                <div className="sender-info">
+                  <img src={message.senderId === currentUser.id ? `${currentUser.avatar}` : `${user.avatar}`} alt="avatar" className="message-avatar" />
+                  <h2>{message.senderId === currentUser.id ? `${currentUser.username}` : `${user.username}`}</h2>
+                </div>
                 {message.file && message.fileType.startsWith('image/') ? (
                   <img src={message.file} alt='img' />
                 ) : (
