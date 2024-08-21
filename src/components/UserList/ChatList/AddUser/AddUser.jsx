@@ -1,29 +1,38 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import avatar from '../../../../assets/images/avatar.jpg'
 import './addUser.css'
 import { db } from '../../../../lib/firebase'
-import { collection, getDocs, query, where, setDoc, doc, updateDoc, serverTimestamp, arrayUnion } from "firebase/firestore";
+import { collection, getDocs, query, where, setDoc, doc, updateDoc, serverTimestamp, arrayUnion, onSnapshot } from "firebase/firestore";
 import { useUserStore } from '../../../../lib/userStore'
-const AddUser = () => {
-    const [user, setUser] = useState(null)
+const AddUser = ({setAddMode}) => {
+    const [users, setUsers] = useState([])
     const {currentUser} = useUserStore()
-    const handleSearch = async (e) => {
-        e.preventDefault()
-        const formData = new FormData(e.target)
-        const username = formData.get('username')
-        try {
-          const userRef = collection(db, "users");
-          const q = query(userRef, where("username", "==", username));
-          const querySnapshot = await getDocs(q);
-          if(querySnapshot){
-            setUser(querySnapshot.docs[0].data())
-          }
-        }
-        catch (error) {
-            console.log("Error getting user: ", error);
-        }
-    }
-    const handleAdd = async (e) => {
+    const [input, setInput] = useState('')
+    const filteredUsers = users.filter(user => user.username.toLowerCase().includes(input.toLowerCase()))
+    useEffect(() => {
+      const unSub = onSnapshot(collection(db, "users"), (snapshot) => {
+          const userList = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+          setUsers(userList);
+      });
+
+      return () => {
+          unSub();
+      }
+  }, []);
+  const mapUsers = () => {
+    return filteredUsers
+      .filter(user => user.id !== currentUser.id)
+      .map(user => (
+        <div key={user.id} className="user">
+          <div>
+            <img src={user.avatar ? user.avatar : avatar} alt="" />
+            <span>{user.username}</span>
+          </div>
+          <button onClick={() => handleAdd(user)}>Add User</button>
+        </div>
+      ));
+  }
+    const handleAdd = async (user) => {
       const chatRef = collection(db, "chats");
       const userChatsRef = collection(db, "userchats");
       try{
@@ -55,20 +64,18 @@ const AddUser = () => {
       catch(error){
         console.log("Error adding chat: ", error);
       }
+      finally{
+        setAddMode(false)
+      }
     }
   return (
     <div className='addUser'>
-        <form onSubmit={handleSearch}>
-            <input type="text" placeholder='Username' name='username' />
-            <button>Search</button>
-        </form>
-        { user && <div className='user'>
-            <div className="detail">
-                <img src={user.avatar ? user.avatar : avatar} alt="" />
-                <span>{user.username}</span>
-                <button onClick={handleAdd}>Add User</button>
-            </div>
-        </div>}
+        <div className='search-user'>
+            <input type="text" placeholder='Username' name='username' onChange={(e) => setInput(e.target.value)}/>
+        </div>
+        <div className="user-list">
+          {mapUsers()}
+        </div>
     </div>
   )
 }

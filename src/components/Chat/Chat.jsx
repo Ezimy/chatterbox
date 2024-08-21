@@ -130,11 +130,11 @@ const Chat = () => {
             </p>
           </div>
         </div>
-        <div className="icons">
+        {/* <div className="icons">
           <FontAwesomeIcon icon={faPhone} />
           <FontAwesomeIcon icon={faVideo} />
           <FontAwesomeIcon icon={faInfo} />
-        </div>
+        </div> */}
       </div>
       <div className='center'>
         {chat?.messages?.map((message) => (
@@ -157,7 +157,7 @@ const Chat = () => {
                     </div>
                   )
                 )}
-                {message.text && <p>{message.text}</p>}
+                {message.text && <p className={`message-text ${message.senderId === currentUser.id ? 'own' : ''}`}>{message.text}</p>}
                 <p className="message-date">
                   {new Date(message.createdAt.toDate()).toLocaleString()}
                 </p>

@@ -9,7 +9,7 @@
     left: 0;
     right: 0;
     margin: auto;
-        form{
+        .search-user{
             display: flex;
             gap: 20px;
             input{
@@ -18,30 +18,34 @@
                 border: none;
                 outline: none;
                 }
-            button{
-                padding: 20px;
-                border-radius: 10px;
-                background-color: #6495ED;
-                color: white;
-                border: none;
-                cursor: pointer;
-            }
         }
-        .user{
+        .user-list{
             margin-top: 50px;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: space-between;
-            .detail{
+            .user{
+                div{
+                    display: flex;
+                    align-items: center;
+                    gap: 1rem;
+                    img{
+                        width: 50px;
+                        height: 50px;
+                        border-radius: 50%;
+                        object-fit: cover;
+                    }
+                }
+                display: flex;
+                justify-content: space-between;
+                width: 100%;
                 display: flex;
                 align-items: center;
                 gap: 20px;
-                img{
-                    width: 50px;
-                    height: 50px;
-                    border-radius: 50%;
-                    object-fit: cover;
-                }
+                padding-bottom: 1rem;
+                border-bottom: 1px solid #6495ED;
+                margin-bottom: 1rem;
             }
             button{
                 padding: 10px;
