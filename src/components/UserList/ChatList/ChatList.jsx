@@ -3,7 +3,7 @@ import './chatList.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch, faPlus, faMinus } from '@fortawesome/free-solid-svg-icons'
 import AddUser from './AddUser/AddUser.jsx'
-import avatar from '../../../assets/images/avatar.jpg'
+import avatarPlaceholder from '../../../assets/images/avatar.jpg'
 import {useUserStore} from '../../../lib/userStore'
 import { db } from '../../../lib/firebase'
 import { doc, getDoc, onSnapshot, updateDoc } from 'firebase/firestore'
@@ -68,7 +68,7 @@ const chatList = () => {
               backgroundColor: chat?.isSeen ? "transparent" : "#5183fe",
             }}
             >
-              <img src={chat.user.avatar} alt='avatar'/>
+              <img src={chat.user.avatar || avatarPlaceholder} alt='avatar'/>
               <div className="texts">
                 <span>{chat.user.username}</span>
                 <p>{chat.lastMessage}</p>

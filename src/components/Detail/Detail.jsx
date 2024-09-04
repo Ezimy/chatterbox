@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import './detail.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faDownload, faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons'
-import avatar from '../../assets/images/avatar.jpg'
+import avatarPlaceholder from '../../assets/images/avatar.jpg'
 import {auth, db} from '../../lib/firebase'
 import { useChatStore } from '../../lib/chatStore'
 import { useUserStore } from '../../lib/userStore'
@@ -55,7 +55,7 @@ const Detail = () => {
   return (
     <div className='detail'>
         <div className="user">
-          <img src={user?.avatar || avatar} alt="avatar" />
+          <img src={user?.avatar || avatarPlaceholder} alt="avatar" />
           <h2>{user?.username}</h2>
           <p>{user?.description}</p>
         </div>

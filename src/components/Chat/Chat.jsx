@@ -15,11 +15,10 @@ import {
   Timestamp
 } from "firebase/firestore";
 import { db } from "../../lib/firebase";
-import avatar from "../../assets/images/avatar.jpg";
 import { useUserStore } from "../../lib/userStore";
 import { useChatStore } from "../../lib/chatStore";
 import upload from "../../lib/upload";
-
+import avatarPlaceholder from "../../assets/images/avatar.jpg";
 const Chat = () => {
   const [open, setOpen] = useState(false);
   const [text, setText] = useState("");
@@ -129,7 +128,7 @@ const Chat = () => {
     <div className="chat">
       <div className="top">
         <div className="user">
-          <img src={user?.avatar || avatar} alt="avatar" />
+          <img src={user?.avatar || avatarPlaceholder} alt="avatar" />
           <div className="texts">
             <span>{user.username}</span>
             <p>

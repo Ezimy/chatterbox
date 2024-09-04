@@ -5,6 +5,7 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword} from 'fireb
 import upload from '/src/lib/upload'
 import { auth,db } from '/src/lib/firebase'
 import { doc, setDoc } from 'firebase/firestore'
+import avatarPlaceholder from '/src/assets/images/avatar.jpg'
 const Login = () => {
     const [loading, setLoading] = useState(false)
     const [avatar, setAvatar] = useState({
@@ -91,7 +92,7 @@ const Login = () => {
             <h2>Dont have an Account? <br /> Create an Account</h2>
             <form onSubmit={handleRegister}>
                 <label htmlFor="file">
-                    <img src={avatar.url || "./avatar.png"} alt='' />
+                    <img src={avatar.url || avatarPlaceholder} alt='' />
                     Upload an Image
                 </label>
                 <input type="file" id='file' style={{display: 'none'}} onChange={handleAvatar}/>
