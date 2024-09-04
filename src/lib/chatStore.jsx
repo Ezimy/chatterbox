@@ -15,6 +15,7 @@ export const useChatStore = create((set) => ({
             return set(
                 {
                     chatId,
+                    sharedPhotos,
                     user:null,
                     isCurrentUserBlocked:true,
                     isReceiverBlocked: false,

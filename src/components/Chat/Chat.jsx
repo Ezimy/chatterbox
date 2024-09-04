@@ -4,9 +4,6 @@ import EmojiPicker from "emoji-picker-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faSmile,
-  faPhone,
-  faVideo,
-  faInfo,
   faFile,
 } from "@fortawesome/free-solid-svg-icons";
 import {
@@ -52,27 +49,38 @@ const Chat = () => {
   };
   const handleSend = async () => {
     let fileUrl = null;
-
     try {
       if (file.file) {
         fileUrl = await upload(file.file);
       }
-
+      // update chat
       await updateDoc(doc(db, "chats", chatId), {
         messages: arrayUnion({
           senderId: currentUser.id,
           text,
           createdAt: Timestamp.now(),
           ...(fileUrl && {
-            file: fileUrl,
-            fileName: file.file.name,
-            fileType: file.type,
+        file: fileUrl,
+        fileName: file.file.name,
+        fileType: file.type,
           }),
         }),
-      });
+        sharedFiles: !file.type.startsWith("image/")
+          ? arrayUnion({
+          url: fileUrl,
+          createdAt: Timestamp.now(),
+        })
+          : arrayUnion(...(chat?.sharedFiles || [])),
+        sharedPhotos: file.type.startsWith("image/")
+          ? arrayUnion({
+          url: fileUrl,
+          createdAt: Timestamp.now(),
+        })
+          : arrayUnion(...(chat?.sharedPhotos || [])),
+      })
 
       const userIds = [currentUser.id, user.id];
-
+      // update userchats
       userIds.forEach(async (id) => {
         const userChatRef = doc(db, "userchats", id);
         const userChatsSnapshot = await getDoc(userChatRef);
@@ -87,7 +95,6 @@ const Chat = () => {
           userChatsData.chats[chatIndex].isSeen =
             id === currentUser.id ? true : false;
           userChatsData.chats[chatIndex].updatedAt = Date.now();
-
           await updateDoc(userChatRef, {
             chats: userChatsData.chats,
           });
@@ -130,11 +137,6 @@ const Chat = () => {
             </p>
           </div>
         </div>
-        {/* <div className="icons">
-          <FontAwesomeIcon icon={faPhone} />
-          <FontAwesomeIcon icon={faVideo} />
-          <FontAwesomeIcon icon={faInfo} />
-        </div> */}
       </div>
       <div className='center'>
         {chat?.messages?.map((message) => (
